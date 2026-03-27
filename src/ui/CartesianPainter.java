@@ -46,7 +46,7 @@ public class CartesianPainter implements Painter {
             g2d.drawLine(0, y0, width, y0);
         } else if (y0 < 0) {
             g2d.drawLine(0, 0, width, 0);
-        } else if (y0 > height) {
+        } else {
             g2d.drawLine(0, height, width, height);
         }
 
@@ -54,7 +54,7 @@ public class CartesianPainter implements Painter {
             g2d.drawLine(x0, 0, x0, height);
         } else if (x0 < 0) {
             g2d.drawLine(0, 0, 0, height);
-        } else if (x0 > width) {
+        } else {
             g2d.drawLine(width, 0, width, height);
         }
 

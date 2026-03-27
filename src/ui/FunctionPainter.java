@@ -7,7 +7,9 @@ import java.util.function.Function;
 
 public class FunctionPainter  implements Painter {
     private Function<Double, Double> f;
+    private final Converter c;
 
+    // убрать
     private int width;
     private int height;
 
@@ -27,22 +29,15 @@ public class FunctionPainter  implements Painter {
         setHeight(height);
     }
 
-    private final Converter c;
+
     public Converter getConverter(){
         return c;
     }
 
-    public int getWidth() {
-        return width;
-    }
-
+    //убрать
     public void setWidth(int width) {
         this.width = width;
         c.setWidth(width);
-    }
-
-    public int getHeight() {
-        return height;
     }
 
     public void setHeight(int height) {
