@@ -4,8 +4,6 @@ import converting.Converter;
 import polynomial.InterpolatingPolynomial;
 
 import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
@@ -32,7 +30,7 @@ public class MainWindow extends JFrame {
     public MainWindow() {
         setTitle("Интерполяционный полином");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setMinimumSize(new Dimension(800, 650));
+        setMinimumSize(new Dimension(800, 700));
 
         polynomial = new InterpolatingPolynomial();
         converter = new Converter(-5.0, 5.0, -5.0, 5.0);
@@ -43,12 +41,7 @@ public class MainWindow extends JFrame {
         initComponents();
         layoutComponents();
 
-        // Начальные точки для демонстрации
-        polynomial.addPoint(-4, -4);
-        polynomial.addPoint(-2, 0);
-        polynomial.addPoint(0, 2);
-        polynomial.addPoint(2, 0);
-        polynomial.addPoint(4, -4);
+        // Без начальных точек
     }
 
     private void initComponents() {
@@ -80,6 +73,10 @@ public class MainWindow extends JFrame {
                     drawingPanel.repaint();
                 } catch (IllegalArgumentException ex) {
                     // Точка с таким x уже существует
+                    JOptionPane.showMessageDialog(MainWindow.this,
+                            "Точка с x = " + x + " уже существует",
+                            "Ошибка",
+                            JOptionPane.ERROR_MESSAGE);
                 }
             }
         });
@@ -158,34 +155,26 @@ public class MainWindow extends JFrame {
         add(drawingPanel, BorderLayout.CENTER);
 
         // Нижняя панель управления
-        JPanel controlPanel = new JPanel(new GridBagLayout());
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(5, 5, 5, 5);
+        JPanel controlPanel = new JPanel();
+        controlPanel.setLayout(new BoxLayout(controlPanel, BoxLayout.Y_AXIS));
+        controlPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        controlPanel.add(new JLabel("X min:"), gbc);
+        // Панель для X
+        JPanel xPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 5));
+        xPanel.add(new JLabel("X min:"));
+        xPanel.add(xMinSpinner);
+        xPanel.add(new JLabel("X max:"));
+        xPanel.add(xMaxSpinner);
 
-        gbc.gridx = 1;
-        controlPanel.add(xMinSpinner, gbc);
+        // Панель для Y
+        JPanel yPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 5));
+        yPanel.add(new JLabel("Y min:"));
+        yPanel.add(yMinSpinner);
+        yPanel.add(new JLabel("Y max:"));
+        yPanel.add(yMaxSpinner);
 
-        gbc.gridx = 2;
-        controlPanel.add(new JLabel("X max:"), gbc);
-
-        gbc.gridx = 3;
-        controlPanel.add(xMaxSpinner, gbc);
-
-        gbc.gridx = 4;
-        controlPanel.add(new JLabel("Y min:"), gbc);
-
-        gbc.gridx = 5;
-        controlPanel.add(yMinSpinner, gbc);
-
-        gbc.gridx = 6;
-        controlPanel.add(new JLabel("Y max:"), gbc);
-
-        gbc.gridx = 7;
-        controlPanel.add(yMaxSpinner, gbc);
+        controlPanel.add(xPanel);
+        controlPanel.add(yPanel);
 
         add(controlPanel, BorderLayout.SOUTH);
 
