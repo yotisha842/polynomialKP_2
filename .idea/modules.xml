@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/Converting/Converting.iml" filepath="$PROJECT_DIR$/Converting/Converting.iml" />
       <module fileurl="file://$PROJECT_DIR$/polynomialKP_2.iml" filepath="$PROJECT_DIR$/polynomialKP_2.iml" />
     </modules>
   </component>

@@ -5,11 +5,27 @@ import converting.Converter;
 import java.awt.*;
 import java.util.function.Function;
 
-public class FunctionPainter {
+public class FunctionPainter  implements Painter {
     private Function<Double, Double> f;
 
     private int width;
     private int height;
+
+    @Override
+    public Dimension getSize() {
+        return new Dimension(width, height);
+    }
+
+    @Override
+    public void setSize(Dimension d) {
+        setSize(d.width, d.height);
+    }
+
+    @Override
+    public void setSize(int width, int height) {
+        setWidth(width);
+        setHeight(height);
+    }
 
     private final Converter c;
     public Converter getConverter(){
@@ -38,6 +54,8 @@ public class FunctionPainter {
         this.f = f;
         c = new Converter(-5.0, 5.0, -5.0, 5.0);
     }
+
+    @Override
     public void paint(Graphics g){
         for (int i = 0; i < width; i++){
             var x1 = i;

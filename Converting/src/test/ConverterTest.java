@@ -1,6 +1,6 @@
 package test;
-
 import converting.Converter;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -43,7 +43,7 @@ class ConverterTest {
     void xCrtToScr1(double cx, int sx) {
         int actual = conv1.xCrtToScr(cx);
         int expected = sx;
-        assertEquals(expected,actual);
+        Assertions.assertEquals(expected,actual);
     }
 
     @ParameterizedTest
@@ -60,7 +60,7 @@ class ConverterTest {
     void xCrtToScr2(double cx, int sx) {
         int actual = conv2.xCrtToScr(cx);
         int expected = sx;
-        assertEquals(expected,actual);
+        Assertions.assertEquals(expected,actual);
     }
 
     @ParameterizedTest
@@ -78,7 +78,7 @@ class ConverterTest {
     void xCrtToScr3(double cx, int sx) {
         int actual = conv3.xCrtToScr(cx);
         int expected = sx;
-        assertEquals(expected,actual);
+        Assertions.assertEquals(expected,actual);
     }
 
     @ParameterizedTest
@@ -95,7 +95,7 @@ class ConverterTest {
     void yCrtToScr1(double cy, int sy) {
         int actual = conv1.yCrtToScr(cy);
         int expected = sy;
-        assertEquals(expected, actual);
+        Assertions.assertEquals(expected, actual);
     }
 
     @ParameterizedTest
@@ -112,7 +112,7 @@ class ConverterTest {
     void yCrtToScr2(double cy, int sy) {
         int actual = conv2.yCrtToScr(cy);
         int expected = sy;
-        assertEquals(expected, actual);
+        Assertions.assertEquals(expected, actual);
     }
 
     @ParameterizedTest
@@ -130,7 +130,7 @@ class ConverterTest {
     void yCrtToScr3(double cy, int sy) {
         int actual = conv3.yCrtToScr(cy);
         int expected = sy;
-        assertEquals(expected, actual);
+        Assertions.assertEquals(expected, actual);
     }
 
     @ParameterizedTest
@@ -147,7 +147,7 @@ class ConverterTest {
     void xScrToCrt1(int sx, double cx) {
         double actual = conv1.xScrToCrt(sx);
         double expected = cx;
-        assertEquals(expected, actual, 0.01);
+        Assertions.assertEquals(expected, actual, 0.01);
     }
 
     @ParameterizedTest
@@ -164,7 +164,7 @@ class ConverterTest {
     void xScrToCrt2(int sx, double cx) {
         double actual = conv2.xScrToCrt(sx);
         double expected = cx;
-        assertEquals(expected, actual, 0.01);
+        Assertions.assertEquals(expected, actual, 0.01);
     }
 
     @ParameterizedTest
@@ -182,7 +182,7 @@ class ConverterTest {
     void xScrToCrt3(int sx, double cx) {
         double actual = conv3.xScrToCrt(sx);
         double expected = cx;
-        assertEquals(expected, actual, 0.01);
+        Assertions.assertEquals(expected, actual, 0.01);
     }
 
     @ParameterizedTest
@@ -199,7 +199,7 @@ class ConverterTest {
     void yScrToCrt1(int sy, double cy) {
         double actual = conv1.yScrToCrt(sy);
         double expected = cy;
-        assertEquals(expected, actual, 0.01);
+        Assertions.assertEquals(expected, actual, 0.01);
     }
 
     @ParameterizedTest
@@ -216,7 +216,7 @@ class ConverterTest {
     void yScrToCrt2(int sy, double cy) {
         double actual = conv2.yScrToCrt(sy);
         double expected = cy;
-        assertEquals(expected, actual, 0.01);
+        Assertions.assertEquals(expected, actual, 0.01);
     }
 
     @ParameterizedTest
@@ -234,7 +234,7 @@ class ConverterTest {
     void yScrToCrt3(int sy, double cy) {
         double actual = conv3.yScrToCrt(sy);
         double expected = cy;
-        assertEquals(expected, actual, 0.01);
+        Assertions.assertEquals(expected, actual, 0.01);
     }
 
     @Test
@@ -275,13 +275,13 @@ class ConverterTest {
     @DisplayName("Проверка выброса исключения при одинаковых границах X")
     void setXRangeThrowsExceptionWhenEqual() {
         Converter conv = new Converter(0, 10, 0, 10);
-        assertThrows(IllegalArgumentException.class, () -> conv.setXRange(5, 5));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> conv.setXRange(5, 5));
     }
 
     @Test
     @DisplayName("Проверка выброса исключения при одинаковых границах Y")
     void setYRangeThrowsExceptionWhenEqual() {
         Converter conv = new Converter(0, 10, 0, 10);
-        assertThrows(IllegalArgumentException.class, () -> conv.setYRange(5, 5));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> conv.setYRange(5, 5));
     }
 }

@@ -39,14 +39,12 @@ public class MainWindow extends JFrame {
 
         polynomial = new InterpolatingPolynomial();
         functionPainter = new FunctionPainter(polynomial::calc);
-        converter = functionPainter.getConverter(); // Используем тот же Converter для синхронизации
+        converter = functionPainter.getConverter();
 
         cartesianPainter = new CartesianPainter(converter);
 
         initComponents();
         layoutComponents();
-
-        // Без начальных точек
     }
 
     private void initComponents() {
@@ -83,7 +81,6 @@ public class MainWindow extends JFrame {
                     polynomial.addPoint(x, y);
                     drawingPanel.repaint();
                 } catch (IllegalArgumentException ex) {
-                    // Точка с таким x уже существует
                     JOptionPane.showMessageDialog(MainWindow.this,
                             "Точка с x = " + x + " уже существует",
                             "Ошибка",
@@ -92,7 +89,6 @@ public class MainWindow extends JFrame {
             }
         });
 
-        // Создаем спиннеры для границ
         xMinModel = new SpinnerNumberModel(-5.0, -100.0, 4.9, 0.1);
         xMaxModel = new SpinnerNumberModel(5.0, -4.9, 100.0, 0.1);
         yMinModel = new SpinnerNumberModel(-5.0, -100.0, 4.9, 0.1);
@@ -103,7 +99,6 @@ public class MainWindow extends JFrame {
         yMinSpinner = new JSpinner(yMinModel);
         yMaxSpinner = new JSpinner(yMaxModel);
 
-        // Добавляем слушателей для контроля границ
         xMinSpinner.addChangeListener(e -> {
             double min = (double) xMinModel.getValue();
             double max = (double) xMaxModel.getValue();
@@ -161,56 +156,53 @@ public class MainWindow extends JFrame {
 
     private void layoutComponents() {
         setLayout(new BorderLayout());
-
-        // Центральная панель для рисования
         add(drawingPanel, BorderLayout.CENTER);
 
-        // Нижняя панель управления
         JPanel controlPanel = new JPanel();
         controlPanel.setLayout(new BoxLayout(controlPanel, BoxLayout.Y_AXIS));
         controlPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
-        // === 1. ЧЕКБОКСЫ (справа, выше) ===
-        JPanel checkboxPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 10, 5));
-        showPointsCheckBox = new JCheckBox("Отображать точки", true);
-        showGraphCheckBox = new JCheckBox("Отображать график", true);
+        JPanel xLinePanel = new JPanel(new BorderLayout());
 
-        showPointsCheckBox.addItemListener(e -> {
-            showPoints = showPointsCheckBox.isSelected();
-            drawingPanel.repaint();
-        });
+        JPanel xPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 15, 5));
+        xPanel.add(new JLabel("X min:"));
+        xPanel.add(xMinSpinner);
+        xPanel.add(new JLabel("X max:"));
+        xPanel.add(xMaxSpinner);
+        xLinePanel.add(xPanel, BorderLayout.WEST);
+
+        JPanel checkboxPanel = new JPanel();
+        checkboxPanel.setLayout(new BoxLayout(checkboxPanel, BoxLayout.Y_AXIS));
+        checkboxPanel.setAlignmentX(Component.RIGHT_ALIGNMENT);
+
+        showGraphCheckBox = new JCheckBox("Отображать график", true);
+        showPointsCheckBox = new JCheckBox("Отображать точки", true);
 
         showGraphCheckBox.addItemListener(e -> {
             showGraph = showGraphCheckBox.isSelected();
             drawingPanel.repaint();
         });
 
+        showPointsCheckBox.addItemListener(e -> {
+            showPoints = showPointsCheckBox.isSelected();
+            drawingPanel.repaint();
+        });
+
         checkboxPanel.add(showGraphCheckBox);
+        checkboxPanel.add(Box.createRigidArea(new Dimension(0, 5)));
         checkboxPanel.add(showPointsCheckBox);
-        controlPanel.add(checkboxPanel); // <-- Добавляем ПЕРВЫМ, чтобы были выше
-        // ===================================
+        xLinePanel.add(checkboxPanel, BorderLayout.EAST);
 
-        // === 2. ПАНЕЛИ С ГРАНИЦАМИ (слева, ближе к краю) ===
-        // FlowLayout.LEFT + 0 отступ слева
-        JPanel xPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 0));
-        xPanel.add(new JLabel("X min:"));
-        xPanel.add(xMinSpinner);
-        xPanel.add(new JLabel("X max:"));
-        xPanel.add(xMaxSpinner);
+        controlPanel.add(xLinePanel);
 
-        JPanel yPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 0));
+        JPanel yPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 15, 5));
         yPanel.add(new JLabel("Y min:"));
         yPanel.add(yMinSpinner);
         yPanel.add(new JLabel("Y max:"));
         yPanel.add(yMaxSpinner);
-        // ===================================================
-
-        controlPanel.add(xPanel);
         controlPanel.add(yPanel);
 
         add(controlPanel, BorderLayout.SOUTH);
-
-        // === УДАЛИТЬ старый блок checkboxPanel отсюда (если остался) ===
 
         pack();
     }
@@ -223,7 +215,6 @@ public class MainWindow extends JFrame {
         for (var entry : polynomial.getPoints().entrySet()) {
             int xScr = converter.xCrtToScr(entry.getKey());
             int yScr = converter.yCrtToScr(entry.getValue());
-            // Рисуем точку как маленький круг (6x6 пикселей)
             g2d.fillOval(xScr - 3, yScr - 3, 6, 6);
         }
     }

@@ -39,11 +39,9 @@ public class CartesianPainter implements Painter {
         int x0 = converter.xCrtToScr(0);
         int y0 = converter.yCrtToScr(0);
 
-        // Рисуем оси
         g2d.setColor(Color.BLACK);
         g2d.setStroke(new BasicStroke(2));
 
-        // Ось X
         if (y0 >= 0 && y0 <= height) {
             g2d.drawLine(0, y0, width, y0);
         } else if (y0 < 0) {
@@ -52,7 +50,6 @@ public class CartesianPainter implements Painter {
             g2d.drawLine(0, height, width, height);
         }
 
-        // Ось Y
         if (x0 >= 0 && x0 <= width) {
             g2d.drawLine(x0, 0, x0, height);
         } else if (x0 < 0) {
@@ -61,33 +58,27 @@ public class CartesianPainter implements Painter {
             g2d.drawLine(width, 0, width, height);
         }
 
-        // Рисуем стрелки на осях
         g2d.setColor(Color.BLACK);
 
-        // Стрелка для оси X
         if (y0 >= 0 && y0 <= height) {
             g2d.drawLine(width - 10, y0 - 5, width, y0);
             g2d.drawLine(width - 10, y0 + 5, width, y0);
         }
 
-        // Стрелка для оси Y
         if (x0 >= 0 && x0 <= width) {
             g2d.drawLine(x0 - 5, 10, x0, 0);
             g2d.drawLine(x0 + 5, 10, x0, 0);
         }
 
-        // Рисуем деления по целым числам
         g2d.setColor(Color.GRAY);
         g2d.setStroke(new BasicStroke(1));
 
-        // Деления по X
         int xStart = (int)Math.ceil(converter.getxMin());
         int xEnd = (int)Math.floor(converter.getxMax());
 
         for (int x = xStart; x <= xEnd; x++) {
             int xScr = converter.xCrtToScr(x);
             if (xScr >= 0 && xScr <= width) {
-                // Вертикальная линия деления
                 if (y0 >= 0 && y0 <= height) {
                     g2d.drawLine(xScr, y0 - 5, xScr, y0 + 5);
                 } else if (y0 < 0) {
@@ -96,7 +87,6 @@ public class CartesianPainter implements Painter {
                     g2d.drawLine(xScr, height - 5, xScr, height - 15);
                 }
 
-                // Подпись
                 if (y0 >= 0 && y0 <= height) {
                     g2d.drawString(String.valueOf(x), xScr - 5, y0 + 20);
                 } else if (y0 < 0) {
@@ -107,14 +97,12 @@ public class CartesianPainter implements Painter {
             }
         }
 
-        // Деления по Y
         int yStart = (int)Math.ceil(converter.getyMin());
         int yEnd = (int)Math.floor(converter.getyMax());
 
         for (int y = yStart; y <= yEnd; y++) {
             int yScr = converter.yCrtToScr(y);
             if (yScr >= 0 && yScr <= height) {
-                // Горизонтальная линия деления
                 if (x0 >= 0 && x0 <= width) {
                     g2d.drawLine(x0 - 5, yScr, x0 + 5, yScr);
                 } else if (x0 < 0) {
@@ -123,7 +111,6 @@ public class CartesianPainter implements Painter {
                     g2d.drawLine(width - 5, yScr, width - 15, yScr);
                 }
 
-                // Подпись
                 if (x0 >= 0 && x0 <= width) {
                     g2d.drawString(String.valueOf(y), x0 + 10, yScr + 5);
                 } else if (x0 < 0) {
@@ -134,11 +121,9 @@ public class CartesianPainter implements Painter {
             }
         }
 
-        // Рисуем подписи осей
         g2d.setColor(Color.BLACK);
         g2d.setFont(new Font("Arial", Font.BOLD, 12));
 
-        // Подпись X
         if (y0 >= 0 && y0 <= height) {
             g2d.drawString("X", width - 15, y0 - 5);
         } else if (y0 < 0) {
@@ -147,7 +132,6 @@ public class CartesianPainter implements Painter {
             g2d.drawString("X", width - 15, height - 10);
         }
 
-        // Подпись Y
         if (x0 >= 0 && x0 <= width) {
             g2d.drawString("Y", x0 + 5, 15);
         } else if (x0 < 0) {
