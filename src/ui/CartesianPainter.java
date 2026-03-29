@@ -6,8 +6,6 @@ import java.awt.*;
 
 public class CartesianPainter implements Painter {
     private Converter converter;
-    private int width;
-    private int height;
 
     public CartesianPainter(Converter converter) {
         this.converter = converter;
@@ -15,7 +13,7 @@ public class CartesianPainter implements Painter {
 
     @Override
     public Dimension getSize() {
-        return new Dimension(width, height);
+        return new Dimension(converter.getWidth(), converter.getHeight());
     }
 
     @Override
@@ -25,8 +23,6 @@ public class CartesianPainter implements Painter {
 
     @Override
     public void setSize(int width, int height) {
-        this.width = width;
-        this.height = height;
         converter.setWidth(width);
         converter.setHeight(height);
     }
@@ -42,30 +38,30 @@ public class CartesianPainter implements Painter {
         g2d.setColor(Color.BLACK);
         g2d.setStroke(new BasicStroke(2));
 
-        if (y0 >= 0 && y0 <= height) {
-            g2d.drawLine(0, y0, width, y0);
+        if (y0 >= 0 && y0 <= converter.getHeight()) {
+            g2d.drawLine(0, y0, converter.getWidth(), y0);
         } else if (y0 < 0) {
-            g2d.drawLine(0, 0, width, 0);
+            g2d.drawLine(0, 0, converter.getWidth(), 0);
         } else {
-            g2d.drawLine(0, height, width, height);
+            g2d.drawLine(0, converter.getHeight(), converter.getWidth(), converter.getHeight());
         }
 
-        if (x0 >= 0 && x0 <= width) {
-            g2d.drawLine(x0, 0, x0, height);
+        if (x0 >= 0 && x0 <= converter.getWidth()) {
+            g2d.drawLine(x0, 0, x0, converter.getHeight());
         } else if (x0 < 0) {
-            g2d.drawLine(0, 0, 0, height);
+            g2d.drawLine(0, 0, 0, converter.getHeight());
         } else {
-            g2d.drawLine(width, 0, width, height);
+            g2d.drawLine(converter.getWidth(), 0, converter.getWidth(), converter.getHeight());
         }
 
         g2d.setColor(Color.BLACK);
 
-        if (y0 >= 0 && y0 <= height) {
-            g2d.drawLine(width - 10, y0 - 5, width, y0);
-            g2d.drawLine(width - 10, y0 + 5, width, y0);
+        if (y0 >= 0 && y0 <= converter.getHeight()) {
+            g2d.drawLine(converter.getWidth() - 10, y0 - 5, converter.getWidth(), y0);
+            g2d.drawLine(converter.getWidth() - 10, y0 + 5, converter.getWidth(), y0);
         }
 
-        if (x0 >= 0 && x0 <= width) {
+        if (x0 >= 0 && x0 <= converter.getWidth()) {
             g2d.drawLine(x0 - 5, 10, x0, 0);
             g2d.drawLine(x0 + 5, 10, x0, 0);
         }
@@ -78,21 +74,21 @@ public class CartesianPainter implements Painter {
 
         for (int x = xStart; x <= xEnd; x++) {
             int xScr = converter.xCrtToScr(x);
-            if (xScr >= 0 && xScr <= width) {
-                if (y0 >= 0 && y0 <= height) {
+            if (xScr >= 0 && xScr <= converter.getWidth()) {
+                if (y0 >= 0 && y0 <= converter.getHeight()) {
                     g2d.drawLine(xScr, y0 - 5, xScr, y0 + 5);
                 } else if (y0 < 0) {
                     g2d.drawLine(xScr, 5, xScr, 15);
                 } else {
-                    g2d.drawLine(xScr, height - 5, xScr, height - 15);
+                    g2d.drawLine(xScr, converter.getHeight() - 5, xScr, converter.getHeight() - 15);
                 }
 
-                if (y0 >= 0 && y0 <= height) {
+                if (y0 >= 0 && y0 <= converter.getHeight()) {
                     g2d.drawString(String.valueOf(x), xScr - 5, y0 + 20);
                 } else if (y0 < 0) {
                     g2d.drawString(String.valueOf(x), xScr - 5, 25);
                 } else {
-                    g2d.drawString(String.valueOf(x), xScr - 5, height - 10);
+                    g2d.drawString(String.valueOf(x), xScr - 5, converter.getHeight() - 10);
                 }
             }
         }
@@ -102,21 +98,21 @@ public class CartesianPainter implements Painter {
 
         for (int y = yStart; y <= yEnd; y++) {
             int yScr = converter.yCrtToScr(y);
-            if (yScr >= 0 && yScr <= height) {
-                if (x0 >= 0 && x0 <= width) {
+            if (yScr >= 0 && yScr <= converter.getHeight()) {
+                if (x0 >= 0 && x0 <= converter.getWidth()) {
                     g2d.drawLine(x0 - 5, yScr, x0 + 5, yScr);
                 } else if (x0 < 0) {
                     g2d.drawLine(5, yScr, 15, yScr);
                 } else {
-                    g2d.drawLine(width - 5, yScr, width - 15, yScr);
+                    g2d.drawLine(converter.getWidth() - 5, yScr, converter.getWidth() - 15, yScr);
                 }
 
-                if (x0 >= 0 && x0 <= width) {
+                if (x0 >= 0 && x0 <= converter.getWidth()) {
                     g2d.drawString(String.valueOf(y), x0 + 10, yScr + 5);
                 } else if (x0 < 0) {
                     g2d.drawString(String.valueOf(y), 20, yScr + 5);
                 } else {
-                    g2d.drawString(String.valueOf(y), width - 30, yScr + 5);
+                    g2d.drawString(String.valueOf(y), converter.getWidth() - 30, yScr + 5);
                 }
             }
         }
@@ -124,20 +120,20 @@ public class CartesianPainter implements Painter {
         g2d.setColor(Color.BLACK);
         g2d.setFont(new Font("Arial", Font.BOLD, 12));
 
-        if (y0 >= 0 && y0 <= height) {
-            g2d.drawString("X", width - 15, y0 - 5);
+        if (y0 >= 0 && y0 <= converter.getHeight()) {
+            g2d.drawString("X", converter.getWidth() - 15, y0 - 5);
         } else if (y0 < 0) {
-            g2d.drawString("X", width - 15, 20);
+            g2d.drawString("X", converter.getWidth() - 15, 20);
         } else {
-            g2d.drawString("X", width - 15, height - 10);
+            g2d.drawString("X", converter.getWidth() - 15, converter.getHeight() - 10);
         }
 
-        if (x0 >= 0 && x0 <= width) {
+        if (x0 >= 0 && x0 <= converter.getWidth()) {
             g2d.drawString("Y", x0 + 5, 15);
         } else if (x0 < 0) {
             g2d.drawString("Y", 15, 15);
         } else {
-            g2d.drawString("Y", width - 20, 15);
+            g2d.drawString("Y", converter.getWidth() - 20, 15);
         }
     }
 }

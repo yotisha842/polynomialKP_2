@@ -9,13 +9,14 @@ public class FunctionPainter  implements Painter {
     private Function<Double, Double> f;
     private final Converter c;
 
-    // убрать
-    private int width;
-    private int height;
+    public FunctionPainter(Function<Double, Double> f){
+        this.f = f;
+        c = new Converter(-5.0, 5.0, -5.0, 5.0);
+    }
 
     @Override
     public Dimension getSize() {
-        return new Dimension(width, height);
+        return new Dimension(c.getWidth(), c.getHeight());
     }
 
     @Override
@@ -25,34 +26,17 @@ public class FunctionPainter  implements Painter {
 
     @Override
     public void setSize(int width, int height) {
-        setWidth(width);
-        setHeight(height);
+        c.setWidth(width);
+        c.setHeight(height);
     }
-
 
     public Converter getConverter(){
         return c;
     }
 
-    //убрать
-    public void setWidth(int width) {
-        this.width = width;
-        c.setWidth(width);
-    }
-
-    public void setHeight(int height) {
-        this.height = height;
-        c.setHeight(height);
-    }
-
-    public FunctionPainter(Function<Double, Double> f){
-        this.f = f;
-        c = new Converter(-5.0, 5.0, -5.0, 5.0);
-    }
-
     @Override
     public void paint(Graphics g){
-        for (int i = 0; i < width; i++){
+        for (int i = 0; i < c.getWidth(); i++){
             var x1 = i;
             var x2 = i+1;
             var dx1 = c.xScrToCrt(x1);

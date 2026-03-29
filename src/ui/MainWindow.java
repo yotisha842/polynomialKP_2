@@ -66,8 +66,7 @@ public class MainWindow extends JFrame {
             @Override
             public void componentResized(ComponentEvent e) {
                 cartesianPainter.setSize(drawingPanel.getWidth(), drawingPanel.getHeight());
-                functionPainter.setWidth(drawingPanel.getWidth());
-                functionPainter.setHeight(drawingPanel.getHeight());
+                functionPainter.setSize(drawingPanel.getWidth(), drawingPanel.getHeight());
                 drawingPanel.repaint();
             }
         });
