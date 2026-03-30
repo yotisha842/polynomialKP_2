@@ -36,16 +36,18 @@ public class FunctionPainter  implements Painter {
 
     @Override
     public void paint(Graphics g){
-        for (int i = 0; i < c.getWidth(); i++){
-            var x1 = i;
-            var x2 = i+1;
-            var dx1 = c.xScrToCrt(x1);
+        var x1 = 0;
+        var dx1 = c.xScrToCrt(x1);
+        var dy1 = f.apply(dx1);
+        var y1 = c.yCrtToScr(dy1);
+        for (int i = 1; i < c.getWidth(); i++){
+            var x2 = x1+1;
             var dx2 = c.xScrToCrt(x2);
-            var dy1 = f.apply(dx1);
             var dy2 = f.apply(dx2);
-            var y1 = c.yCrtToScr(dy1);
             var y2 = c.yCrtToScr(dy2);
             g.drawLine(x1, y1, x2, y2);
+            x1 = x2;
+            y1 = y2;
         }
     }
 }
